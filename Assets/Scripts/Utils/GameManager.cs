@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public float fadeDuration = 1f;
     public Color fadeColor = Color.black;
     [SerializeField] private float timer = 0;
-
+    
     private void Awake()
     {
         if (instance == null)

@@ -15,15 +15,23 @@ public class TriggerZone : MonoBehaviour
     {
         if (other.CompareTag(interactionTag))
         {
+            var kart = other.GetComponent<KartController>();
+            if (kart != null)
+            {
+                var pickup = GetComponent<InteractableOptions>();
+                if (pickup != null)
+                {
+                    if (pickup.useOnPickup)
+                    {
+                        pickup.Use(kart);
+                    }
+                    else
+                    {
+                        kart.PickupItem(pickup);
+                    }
+                }
+            }
             onTriggerEnter.Invoke();
-        }
-    }
-
-    public void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag(interactionTag))
-        {
-            onTriggerStay.Invoke();
         }
     }
 
