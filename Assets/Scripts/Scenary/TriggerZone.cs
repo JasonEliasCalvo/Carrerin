@@ -23,23 +23,36 @@ public class TriggerZone : MonoBehaviour
                 {
                     if (pickup.useOnPickup)
                     {
-                        pickup.Use(kart);
+                        if (pickup.InteractionTypes.Contains(InteractionType.Use))
+                        {
+                            pickup.Use(kart);
+                        }
+                        else
+                        {
+                            pickup.TryInteract(kart);
+                        }
                     }
                     else
                     {
                         kart.PickupItem(pickup);
                     }
+
                 }
             }
-            onTriggerEnter.Invoke();
+            onTriggerEnter?.Invoke();
         }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        onTriggerStay?.Invoke();
     }
 
     public void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(interactionTag))
         {
-            onTriggerExit.Invoke();
+            onTriggerExit?.Invoke();
         }
     }
 }

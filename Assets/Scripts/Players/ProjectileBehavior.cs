@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileBehavior : MonoBehaviour
 {
-    [HideInInspector] public KartController owner; // lo que lo dispara
+    [HideInInspector] public KartController owner;
     [HideInInspector] public bool followTarget = false;
 
     public float speed = 15f;
@@ -32,7 +32,7 @@ public class ProjectileBehavior : MonoBehaviour
             followTimer -= Time.deltaTime;
         }
 
-        // Avanzar siempre hacia adelante
+        //Avanzar siempre hacia adelante
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 

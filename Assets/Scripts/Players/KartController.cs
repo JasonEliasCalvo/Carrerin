@@ -37,7 +37,6 @@ public class KartController : MonoBehaviour
     private Vector2 moveInput;
     private bool movementState = true;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -164,7 +163,7 @@ public class KartController : MonoBehaviour
 
     public void PickupItem(InteractableOptions item)
     {
-        if (currentItem == null) // solo si no tienes uno ya
+        if (currentItem == null)
         {
             currentItem = item;
             item.gameObject.SetActive(false);

@@ -23,7 +23,7 @@ public class InteractableOptions : MonoBehaviour
     [SerializeField] private ItemType itemType;
     [SerializeField] private bool justOneInteraction = false;
     [SerializeField] private bool canInteract = true;
-    [SerializeField] public bool useOnPickup = false;
+    [SerializeField] public bool useOnPickup = true;
 
     public List<UnityEvent> onInteract = new List<UnityEvent>();
 
@@ -106,7 +106,6 @@ public class InteractableOptions : MonoBehaviour
             }
         }
     }
-
 
     public void Use(KartController owner)
     {

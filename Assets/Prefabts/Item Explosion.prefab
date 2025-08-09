@@ -157,8 +157,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionTypes: 02000000
+  itemType: 0
   justOneInteraction: 1
   canInteract: 1
+  useOnPickup: 1
   onInteract:
   - m_PersistentCalls:
       m_Calls: []

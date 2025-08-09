@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KartEffectsManager : MonoBehaviour
 {
-    private GameObject projectilePrefab;
+    [SerializeField] private GameObject projectilePrefab;
 
     public void LaunchProjectile(KartController owner, bool followTarget)
     {
