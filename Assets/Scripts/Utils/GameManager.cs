@@ -177,7 +177,6 @@ public class GameManager : MonoBehaviour
                 UIManager.instance.mainPanel.SetActive(true);
                 Debug.Log("Menu");
             }
-
             else
                 UIManager.instance.pausePanel.SetActive(true);
         }
@@ -202,7 +201,7 @@ public class GameManager : MonoBehaviour
         {
             UIManager.instance.ShowPausePanel(true);
             Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 1f;
+            Time.timeScale = 0f;
         }
         else
         {
