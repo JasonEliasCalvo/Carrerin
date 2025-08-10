@@ -4,6 +4,7 @@ using UnityEngine;
 public class KartEffectsManager : MonoBehaviour
 {
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private AudioClip clip;
 
     public void LaunchProjectile(KartController owner, bool followTarget)
     {
@@ -31,6 +32,8 @@ public class KartEffectsManager : MonoBehaviour
         float originalForward = kart.forwardSpeed;
         kart.forwardSpeed = 0.2f;
         kart.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        AudioManager.Instance.PlaySound(clip);
+
         yield return new WaitForSeconds(duration);
         kart.forwardSpeed = originalForward;
     }

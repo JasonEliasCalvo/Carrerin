@@ -22,10 +22,8 @@ public class KartController : MonoBehaviour
     public Vector3 boxSize = new Vector3(0.5f, 0.1f, 0.5f);
     public LayerMask whatIsGround;
     public LayerMask whatIsMud;
-    private bool isGrounded;
-    private bool isMud;
 
-    [Header("Ruedas delanteras (opcional)")]
+    [Header("Ruedas")]
     public Transform leftFrontWheel;
     public Transform rightFrontWheel;
     public float maxWheelTurn = 30f;
@@ -33,12 +31,20 @@ public class KartController : MonoBehaviour
     [Header("Cámara")]
     public GameObject cam;
 
+    // Estado interno
     private Rigidbody rb;
-    private Vector2 moveInput;
-    private float steerInput = 0f;
-    private bool isAccelerating = false;
-    private bool isBraking = false;
-    private bool movementState = false;
+    private float steerInput;
+    private bool isAccelerating;
+    private bool isBraking;
+    private bool movementState;
+    private bool isGrounded;
+    private bool isMud;
+
+    private const float tiltLimit = 25f;
+    private const float brakeThreshold = 0.2f;
+    private const float accelThreshold = 0.2f;
+
+    private InteractableOptions currentItem;
 
     void Start()
     {
@@ -50,78 +56,20 @@ public class KartController : MonoBehaviour
         GameManager.instance.eventGameEnd += DeactivateMovement;
     }
 
-    public void ActiveMovement()
+    private void Update()
     {
-        movementState = true;
-    }
-    public void DeactivateMovement()
-    {
-        movementState = false;
-        rb.linearVelocity = Vector3.zero;
+        UpdateWheelVisuals();
     }
 
-    void Update()
-    {
-        // Animación de ruedas delanteras (solo visual)
-        if (leftFrontWheel && rightFrontWheel)
-        {
-            leftFrontWheel.localRotation = Quaternion.Euler(
-                leftFrontWheel.localRotation.eulerAngles.x,
-                steerInput * maxWheelTurn,
-                leftFrontWheel.localRotation.eulerAngles.z
-            );
-
-            rightFrontWheel.localRotation = Quaternion.Euler(
-                rightFrontWheel.localRotation.eulerAngles.x,
-                steerInput * maxWheelTurn,
-                rightFrontWheel.localRotation.eulerAngles.z
-            );
-        }
-    }
-
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         CheckGround();
         LimitRotation();
 
         if (!movementState || !isGrounded)
             return;
-        Vector3 moveDir = transform.forward;
-        Vector3 velocityXZ = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-        float speed = velocityXZ.magnitude;
 
-        float inputDirection = 0f;
-        if (isAccelerating) inputDirection = 1f;
-        else if (isBraking) inputDirection = -1f;
-
-        float currentSpeedLimit = (inputDirection > 0) ? forwardSpeed : reverseSpeed;
-
-        if (isMud && inputDirection > 0)
-        {
-            currentSpeedLimit *= acceleration;
-        }
-
-        // Solo aplicar fuerza si estamos acelerando o frenando
-        if (inputDirection != 0 && speed < maxSpeed)
-        {
-            rb.AddForce(moveDir * currentSpeedLimit * inputDirection, ForceMode.Acceleration);
-
-            float actualTurnSpeed = turnSpeed;
-            if (inputDirection < 0)
-                actualTurnSpeed *= reverseTurnMultiplier;
-
-            float steerAmount = steerInput * actualTurnSpeed * Time.fixedDeltaTime;
-            Quaternion turnOffset = Quaternion.Euler(0, steerAmount, 0);
-            rb.MoveRotation(rb.rotation * turnOffset);
-        }
-        else
-        {
-            // Si no estamos acelerando ni frenando, frenar lentamente
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, 0.1f);
-        }
-
-        // Fricción general
-        rb.linearVelocity *= drag;
+        ApplyMovement();
     }
 
     public void OnSteer(InputValue value)
@@ -131,32 +79,71 @@ public class KartController : MonoBehaviour
 
     public void OnAccelerate(InputValue value)
     {
-        isAccelerating = value.isPressed;
+        isAccelerating = value.Get<float>() > accelThreshold;
     }
 
     public void OnBrake(InputValue value)
     {
-        isBraking = value.isPressed;
+        isBraking = value.Get<float>() > brakeThreshold;
     }
 
-    public Vector3 GetMoveDirection()
+    public void ActiveMovement() => movementState = true;
+
+    public void DeactivateMovement()
     {
-        if (!movementState) return Vector3.zero;
-
-        Vector3 cameraForward = cam.transform.forward;
-        cameraForward.y = 0f;
-        cameraForward.Normalize();
-
-        Vector3 cameraRight = cam.transform.right;
-        cameraRight.y = 0f;
-        cameraRight.Normalize();
-
-        Vector3 moveDir = (cameraForward * moveInput.y + cameraRight * moveInput.x);
-        if (moveDir.magnitude > 1f)
-            moveDir.Normalize();
-
-        return moveDir;
+        movementState = false;
+        rb.linearVelocity = Vector3.zero;
     }
+
+    private void ApplyMovement()
+    {
+        Vector3 moveDir = transform.forward;
+        float speed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
+
+        float inputDirection = 0;
+
+        if (isAccelerating && isBraking) inputDirection = 0;
+        else if (isAccelerating) inputDirection = 1f;
+        else if (isBraking) inputDirection = -1f;
+
+        float currentSpeedLimit = inputDirection > 0 ? forwardSpeed : reverseSpeed;
+
+        if (isMud && inputDirection > 0)
+            currentSpeedLimit *= acceleration;
+
+        if (inputDirection != 0 && speed < maxSpeed)
+        {
+            rb.AddForce(moveDir * currentSpeedLimit * inputDirection, ForceMode.Acceleration);
+
+            float actualTurnSpeed = inputDirection < 0 ? turnSpeed * reverseTurnMultiplier : turnSpeed;
+            float steerAmount = steerInput * actualTurnSpeed * Time.fixedDeltaTime;
+
+            rb.MoveRotation(rb.rotation * Quaternion.Euler(0, steerAmount, 0));
+        }
+        else
+        {
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, 0.05f);
+        }
+
+        rb.linearVelocity *= drag;
+    }
+
+    private void UpdateWheelVisuals()
+    {
+        if (!leftFrontWheel || !rightFrontWheel) return;
+
+        float wheelRotation = steerInput * maxWheelTurn;
+
+        leftFrontWheel.localRotation = Quaternion.Euler(
+            leftFrontWheel.localRotation.eulerAngles.x, wheelRotation, leftFrontWheel.localRotation.eulerAngles.z
+        );
+
+        rightFrontWheel.localRotation = Quaternion.Euler(
+            rightFrontWheel.localRotation.eulerAngles.x, wheelRotation, rightFrontWheel.localRotation.eulerAngles.z
+        );
+    }
+
+   
 
     public void LimitRotation()
     {
@@ -164,11 +151,11 @@ public class KartController : MonoBehaviour
         float tiltX = Mathf.DeltaAngle(0, currentRotation.x);
         float tiltZ = Mathf.DeltaAngle(0, currentRotation.z);
 
-        float maxTilt = 30f;
-
-        if (Mathf.Abs(tiltX) > maxTilt || Mathf.Abs(tiltZ) > maxTilt)
+        if (Mathf.Abs(tiltX) > tiltLimit || Mathf.Abs(tiltZ) > tiltLimit)
         {
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX |
+                             RigidbodyConstraints.FreezeRotationZ |
+                             RigidbodyConstraints.FreezeRotationY;
         }
         else
         {
@@ -189,14 +176,11 @@ public class KartController : MonoBehaviour
         isMud = Physics.CheckBox(groundCheck.position, boxSize, Quaternion.identity, whatIsMud);
     }
 
-    private InteractableOptions currentItem;
-
     public void PickupItem(InteractableOptions item)
     {
         if (currentItem == null)
         {
             currentItem = item;
-            item.gameObject.SetActive(false);
         }
     }
 

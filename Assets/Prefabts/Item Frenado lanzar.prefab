@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6383580301226563407}
+  - component: {fileID: 8349964146897938053}
   - component: {fileID: 6849365602522672531}
   - component: {fileID: 2077238100846344218}
   - component: {fileID: 3107526912622499556}
-  - component: {fileID: 5737835746458216396}
+  - component: {fileID: -3004100966697050684}
   m_Layer: 0
-  m_Name: Item Frenado
+  m_Name: Item Frenado lanzar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,9 +34,17 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 7835760067840911953}
+  - {fileID: 5352632410677046869}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8349964146897938053
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7055307754426334459}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &6849365602522672531
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73,7 +82,7 @@ MonoBehaviour:
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7491147441562546411}
+      - m_Target: {fileID: 4684744708962235631}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -97,7 +106,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5737835746458216396}
+      - m_Target: {fileID: -3004100966697050684}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -127,18 +136,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf4fce5147c0c8a4a8d245966a67d98e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionTypes: 02000000
+  interactionTypes: 03000000
   itemType: 0
   justOneInteraction: 1
   canInteract: 1
-  useOnPickup: 1
+  useOnPickup: 0
   onInteract:
   - m_PersistentCalls:
       m_Calls: []
   effectsManager: {fileID: 0}
   materialName: 
   ID: 0
---- !u!82 &5737835746458216396
+--- !u!82 &-3004100966697050684
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,7 +244,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &7724956737473891770
+--- !u!1001 &5603295612676639166
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -308,13 +317,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f45bb45c2fe75fa41b3c970d5c9ee26f, type: 3}
---- !u!1 &7491147441562546411 stripped
+--- !u!1 &4684744708962235631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f45bb45c2fe75fa41b3c970d5c9ee26f, type: 3}
-  m_PrefabInstance: {fileID: 7724956737473891770}
+  m_PrefabInstance: {fileID: 5603295612676639166}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7835760067840911953 stripped
+--- !u!4 &5352632410677046869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f45bb45c2fe75fa41b3c970d5c9ee26f, type: 3}
-  m_PrefabInstance: {fileID: 7724956737473891770}
+  m_PrefabInstance: {fileID: 5603295612676639166}
   m_PrefabAsset: {fileID: 0}

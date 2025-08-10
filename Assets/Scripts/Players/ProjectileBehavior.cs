@@ -7,7 +7,7 @@ public class ProjectileBehavior : MonoBehaviour
 
     public float speed = 15f;
     public float turnSpeed = 2f;
-    public float maxFollowTime = 2f; // tiempo que seguirá al enemigo
+    public float maxFollowTime = 3f;
 
     private float followTimer;
     private Transform target;
@@ -65,7 +65,7 @@ public class ProjectileBehavior : MonoBehaviour
             if (effectsManager != null)
                 StartCoroutine(effectsManager.StopEffect(hitKart, 1.5f));
 
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            gameObject.GetComponentInChildren<Renderer>().enabled = true;
             gameObject.GetComponent<Collider>().enabled = false;
         }
     }
