@@ -104,6 +104,8 @@ public class GameManager : MonoBehaviour
         }
 
         fadeCanvasGroup.alpha = 1;
+        fadeCanvasGroup.interactable = true;
+        fadeCanvasGroup.blocksRaycasts = true;
         onComplete?.Invoke();
     }
 
@@ -119,6 +121,8 @@ public class GameManager : MonoBehaviour
         }
 
         fadeCanvasGroup.alpha = 0;
+        fadeCanvasGroup.interactable = false;
+        fadeCanvasGroup.blocksRaycasts = false;
         onComplete?.Invoke();
     }
 
@@ -141,7 +145,6 @@ public class GameManager : MonoBehaviour
 
         if (UIManager.instance.mainPanel.activeSelf)
         {
-            Debug.Log("Saliendo del juego...");
             Application.Quit();
         }
         if (UIManager.instance.pausePanel.activeSelf)
@@ -153,6 +156,19 @@ public class GameManager : MonoBehaviour
             UIManager.instance.creditpanel.SetActive(false);
             UIManager.instance.mainPanel.SetActive(true);
         }
+        if(UIManager.instance.optionsPanel.activeSelf)
+        {
+            UIManager.instance.optionsPanel.SetActive(false);
+            if(Time.timeScale > 0)
+            {
+                UIManager.instance.mainPanel.SetActive(true);
+                Debug.Log("Menu");
+            }
+
+            else
+                UIManager.instance.pausePanel.SetActive(true);
+        }
+
     }
 
     public void ResumeGame()
