@@ -3,7 +3,72 @@ guid: 38cf77c15ac99864d914dea411ce8f4c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 5c458f4a0a673184d88491c16566b78b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: ddfa91023153dc04d95ee6a79d5e3252, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: 4f1d8b9f318129c438de4b8fe18ba232, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.009
+    second: {fileID: 2100000, guid: 3c59a1ce4eef1bf4bb8c85851593da12, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.010
+    second: {fileID: 2100000, guid: b40e35a70c1f84240ba8393ecf9508f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.011
+    second: {fileID: 2100000, guid: 04742f73401ace747ab8b336aee490df, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.012
+    second: {fileID: 2100000, guid: 1e1190aff65da394aab505e815509b56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.013
+    second: {fileID: 2100000, guid: 481a9473727787045af7e9e6a6eadd01, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Conejo
+    second: {fileID: 2100000, guid: 793bf3f42339e5a4c9d9a472c6f26aa3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "T_Mo\xF1o"
+    second: {fileID: 2100000, guid: c75213e712b036645a28ca182a029775, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "T_Mo\xF1o_Circulo"
+    second: {fileID: 2100000, guid: be150aaacbf808a48bc93f9c92bde667, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Nariz
+    second: {fileID: 2100000, guid: 2de689edc31bf4d479d792f88134219a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: T_Orejas
+    second: {fileID: 2100000, guid: 0e9e1e6e87a7d084885cf7e14873f7a5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
