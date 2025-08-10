@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: ae7a7012ee67b594abf36f36d14286e1
+guid: 139b12339fb6abb47856d4a0dbf0d4c8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 7c7aeba23c892e143831aa0697bfed00, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rocas
+    second: {fileID: 2100000, guid: fa4e83c2464cbd84d8507f858eb82f9a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

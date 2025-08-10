@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 008e994067204bc468bf2572949e2d09
+guid: 7dd8c9eac5ea8a049b85a55e4f18ab07
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.014
-    second: {fileID: 2100000, guid: 55046d80ec427954a9b0690ac37520fd, type: 2}
+      name: Boton Textura
+    second: {fileID: 2100000, guid: d9a050a9f30658543b55b672f67604f8, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Material.015
-    second: {fileID: 2100000, guid: 1255bb99e49e35a4fa6b63357746a54b, type: 2}
+      name: Material
+    second: {fileID: 2100000, guid: e0d347ee5c854fa4f9d5e2125cb98baf, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
