@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452376756341752575}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20754382, y: 0.49261484, z: 0.15960899, w: 0.8299284}
+  m_LocalRotation: {x: 0.20754384, y: 0.49261484, z: 0.15960899, w: 0.82992846}
   m_LocalPosition: {x: -15.9481535, y: 5.07561, z: 7.3571625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -200,8 +200,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5406842817477936029}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.20960261, y: 0, z: 0, w: 0.97778666}
-  m_LocalPosition: {x: 0, y: 2.19, z: -7.06}
+  m_LocalRotation: {x: -0.20960261, y: -0.0000000842937, z: -0.000000010536713, w: 0.9777867}
+  m_LocalPosition: {x: -0.000000112056625, y: 2.19, z: -7.0600004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -493,7 +493,7 @@ MonoBehaviour:
   reverseSpeed: 30
   maxSpeed: 100
   acceleration: 3
-  turnSpeed: 30
+  turnSpeed: 40
   reverseTurnMultiplier: 0.5
   drag: 0.95
   gravityForce: -10
