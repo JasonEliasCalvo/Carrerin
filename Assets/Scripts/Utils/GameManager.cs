@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -48,12 +50,22 @@ public class GameManager : MonoBehaviour
     {
         playerControls.Player.Enable();
         playerControls.Player.Exit.performed += OnExit;
+        playerControls.UI.Continue.performed += OnContinue;
+    }
+
+    private void OnContinue(InputAction.CallbackContext context)
+    {
+        if (UIManager.instance.winPanel.activeSelf)
+        {
+            ReturnToMainMenu();
+        }
     }
 
     private void OnDisable()
     {
-        playerControls.Player.Disable();
         playerControls.Player.Exit.performed -= OnExit;
+        playerControls.UI.Continue.performed -= OnContinue;
+        playerControls.Player.Disable();
     }
 
     public void GamePrepate()
@@ -73,7 +85,6 @@ public class GameManager : MonoBehaviour
     public void GameEnd()
     {
         UIManager.instance.winPanel.SetActive(true);
- 
         chronometer.Stop();
         chronometer.End();
         eventGameEnd?.Invoke();

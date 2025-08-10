@@ -777,7 +777,7 @@
                     "name": "Submit",
                     "type": "Button",
                     "id": "7607c7b6-cd76-4816-beef-bd0341cfe950",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -867,6 +867,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "9422531d-34bd-4dcd-828f-072c3d2d0863",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Continue",
+                    "type": "Button",
+                    "id": "a78694a2-e70a-41d6-a8a4-326dfb9a1049",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1311,6 +1320,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab483b41-9a20-4268-86a8-d386d90d31cc",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Continue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e70958d1-61ad-4e15-8e16-14aa6f13c828",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Continue",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -39,6 +39,7 @@ public class ProjectileBehavior : MonoBehaviour
     {
         KartController[] allKarts = FindObjectsByType<KartController>(FindObjectsSortMode.None);
         Transform closest = null;
+
         float minDist = Mathf.Infinity;
 
         foreach (KartController kart in allKarts)
