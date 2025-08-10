@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
 
     public void GameEnd()
     {
+        UIManager.instance.winPanel.SetActive(true);
+ 
         chronometer.Stop();
         chronometer.End();
         eventGameEnd?.Invoke();

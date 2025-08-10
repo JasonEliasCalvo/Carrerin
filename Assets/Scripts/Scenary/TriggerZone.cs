@@ -36,7 +36,6 @@ public class TriggerZone : MonoBehaviour
                     {
                         kart.PickupItem(pickup);
                     }
-
                 }
             }
             onTriggerEnter?.Invoke();
