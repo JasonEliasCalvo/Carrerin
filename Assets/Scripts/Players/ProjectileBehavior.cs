@@ -61,7 +61,12 @@ public class ProjectileBehavior : MonoBehaviour
         KartController hitKart = other.GetComponent<KartController>();
         if (hitKart != null && hitKart != owner)
         {
-            Destroy(gameObject);
+           var effectsManager = FindFirstObjectByType<KartEffectsManager>();
+            if (effectsManager != null)
+                StartCoroutine(effectsManager.StopEffect(hitKart, 1.5f));
+
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            gameObject.GetComponent<Collider>().enabled = false;
         }
     }
 }

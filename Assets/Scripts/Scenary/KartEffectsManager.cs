@@ -7,7 +7,10 @@ public class KartEffectsManager : MonoBehaviour
 
     public void LaunchProjectile(KartController owner, bool followTarget)
     {
-        GameObject projectile = Instantiate(projectilePrefab, owner.transform.position + owner.transform.forward, Quaternion.identity);
+        Vector3 spawnPos = owner.transform.position + owner.transform.forward * 1.5f;
+        Quaternion spawnRot = owner.transform.rotation;
+
+        GameObject projectile = Instantiate(projectilePrefab, spawnPos, spawnRot);
 
         var projScript = projectile.GetComponent<ProjectileBehavior>();
         projScript.owner = owner;

@@ -10,12 +10,18 @@ public class GameManager : MonoBehaviour
     public DelegatedGameStates eventGameEnd;
     public static GameManager instance;
 
+    PlayerControls playerControls;
+
+    [Header("Time Settings")]
+    [SerializeField] Timer timer;
+    [SerializeField] Chronometer chronometer;
+
     [Header("Fade Settings")]
     public CanvasGroup fadeCanvasGroup;
     public Image fadeImage;
     public float fadeDuration = 1f;
     public Color fadeColor = Color.black;
-    [SerializeField] private float timer = 0;
+    [SerializeField] private float fadeTimer = 0;
     
     private void Awake()
     {
@@ -27,24 +33,47 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        GamePrepate();
+        InicializateGame();
+    }
+
+    public void InicializateGame()
+    {
+        playerControls = new PlayerControls();
+        fadeImage.color = fadeColor;
+        fadeCanvasGroup.alpha = 1f;
+        StartFadeIn();
+    }
+
+    private void OnEnable()
+    {
+        playerControls.Player.Enable();
+        playerControls.Player.Exit.performed += OnExit;
+    }
+
+    private void OnDisable()
+    {
+        playerControls.Player.Disable();
+        playerControls.Player.Exit.performed -= OnExit;
     }
 
     public void GamePrepate()
     {
-        fadeImage.color = fadeColor;
-        fadeCanvasGroup.alpha = 1f;
-        StartFadeIn();
-        Invoke(nameof(InitialGameStart), 0.2f);
+        UIManager.instance.ShowTimerPanel(true);
+        timer.eventEndTime += GameStart;
+        timer.Initiate(3);
     }
 
-    public void InitialGameStart()
+    public void GameStart()
     {
         eventGameStart?.Invoke();
+        UIManager.instance.ShowChrometerPanel(true);
+        chronometer.Initiate(0);
     }
 
-    public void InitialGameEnd()
+    public void GameEnd()
     {
+        chronometer.Stop();
+        chronometer.End();
         eventGameEnd?.Invoke();
     }
 
@@ -65,12 +94,12 @@ public class GameManager : MonoBehaviour
             fadeImage.color = fadeColor;
         }
 
-        timer = 0;
+        fadeTimer = 0;
 
-        while (timer < fadeDuration)
+        while (fadeTimer < fadeDuration)
         {
-            timer += Time.unscaledDeltaTime;
-            fadeCanvasGroup.alpha = Mathf.Lerp(0, 1, timer / fadeDuration);
+            fadeTimer += Time.unscaledDeltaTime;
+            fadeCanvasGroup.alpha = Mathf.Lerp(0, 1, fadeTimer / fadeDuration);
             yield return null;
         }
 
@@ -80,12 +109,12 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FadeInCoroutine(System.Action onComplete)
     {
-        timer = 0;
+        fadeTimer = 0;
 
-        while (timer < fadeDuration)
+        while (fadeTimer < fadeDuration)
         {
-            timer += Time.deltaTime;
-            fadeCanvasGroup.alpha = Mathf.Lerp(1, 0, timer / fadeDuration);
+            fadeTimer += Time.deltaTime;
+            fadeCanvasGroup.alpha = Mathf.Lerp(1, 0, fadeTimer / fadeDuration);
             yield return null;
         }
 
@@ -106,16 +135,24 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
-
-    public void StartGame()
+    private void OnExit(UnityEngine.InputSystem.InputAction.CallbackContext context)
     {
-        SceneManager.LoadSceneAsync(1);
-    }
+        Debug.Log("Botón de salida presionado");
 
-    public void QuitGame()
-    {
-        Debug.Log("Saliendo del juego...");
-        Application.Quit();
+        if (UIManager.instance.mainPanel.activeSelf)
+        {
+            Debug.Log("Saliendo del juego...");
+            Application.Quit();
+        }
+        if (UIManager.instance.pausePanel.activeSelf)
+        {
+            TogglePause();
+        }
+        if (UIManager.instance.creditpanel.activeSelf)
+        {
+            UIManager.instance.creditpanel.SetActive(false);
+            UIManager.instance.mainPanel.SetActive(true);
+        }
     }
 
     public void ResumeGame()

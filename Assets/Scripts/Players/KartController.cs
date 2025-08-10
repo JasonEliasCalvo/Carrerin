@@ -35,13 +35,29 @@ public class KartController : MonoBehaviour
 
     private Rigidbody rb;
     private Vector2 moveInput;
-    private bool movementState = true;
+    private float steerInput = 0f;
+    private bool isAccelerating = false;
+    private bool isBraking = false;
+    private bool movementState = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
         rb.transform.parent = null;
+
+        GameManager.instance.eventGameStart += ActiveMovement;
+        GameManager.instance.eventGameEnd += DeactivateMovement;
+    }
+
+    public void ActiveMovement()
+    {
+        movementState = true;
+    }
+    public void DeactivateMovement()
+    {
+        movementState = false;
+        rb.linearVelocity = Vector3.zero;
     }
 
     void Update()
@@ -51,13 +67,13 @@ public class KartController : MonoBehaviour
         {
             leftFrontWheel.localRotation = Quaternion.Euler(
                 leftFrontWheel.localRotation.eulerAngles.x,
-                moveInput.x * maxWheelTurn,
+                steerInput * maxWheelTurn,
                 leftFrontWheel.localRotation.eulerAngles.z
             );
 
             rightFrontWheel.localRotation = Quaternion.Euler(
                 rightFrontWheel.localRotation.eulerAngles.x,
-                moveInput.x * maxWheelTurn,
+                steerInput * maxWheelTurn,
                 rightFrontWheel.localRotation.eulerAngles.z
             );
         }
@@ -67,46 +83,60 @@ public class KartController : MonoBehaviour
     {
         CheckGround();
         LimitRotation();
-        Vector3 moveDir = GetMoveDirection();
+
+        if (!movementState || !isGrounded)
+            return;
+        Vector3 moveDir = transform.forward;
         Vector3 velocityXZ = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        float speed = velocityXZ.magnitude;
 
-        float currentSpeedLimit = (moveInput.y > 0) ? forwardSpeed : reverseSpeed;
+        float inputDirection = 0f;
+        if (isAccelerating) inputDirection = 1f;
+        else if (isBraking) inputDirection = -1f;
 
-        if (isMud && moveInput.y > 0)
+        float currentSpeedLimit = (inputDirection > 0) ? forwardSpeed : reverseSpeed;
+
+        if (isMud && inputDirection > 0)
         {
             currentSpeedLimit *= acceleration;
         }
 
-        if (moveDir.sqrMagnitude > 0.01f && velocityXZ.magnitude < maxSpeed)
+        // Solo aplicar fuerza si estamos acelerando o frenando
+        if (inputDirection != 0 && speed < maxSpeed)
         {
-            rb.AddForce(moveDir * currentSpeedLimit, ForceMode.Acceleration);
+            rb.AddForce(moveDir * currentSpeedLimit * inputDirection, ForceMode.Acceleration);
 
-            // Ajustar velocidad
             float actualTurnSpeed = turnSpeed;
-            if (moveInput.y < 0)
-            {
+            if (inputDirection < 0)
                 actualTurnSpeed *= reverseTurnMultiplier;
-            }
 
-            // Rotación suave
-            if (moveInput.y > 0)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-                rb.MoveRotation(Quaternion.Slerp(
-                    rb.rotation,
-                    targetRotation,
-                    actualTurnSpeed * Time.fixedDeltaTime
-                ));
-            }
+            float steerAmount = steerInput * actualTurnSpeed * Time.fixedDeltaTime;
+            Quaternion turnOffset = Quaternion.Euler(0, steerAmount, 0);
+            rb.MoveRotation(rb.rotation * turnOffset);
+        }
+        else
+        {
+            // Si no estamos acelerando ni frenando, frenar lentamente
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, 0.1f);
         }
 
-        // Fricción manual
+        // Fricción general
         rb.linearVelocity *= drag;
     }
 
-    public void OnMove(InputValue value)
+    public void OnSteer(InputValue value)
     {
-        moveInput = value.Get<Vector2>();
+        steerInput = value.Get<float>();
+    }
+
+    public void OnAccelerate(InputValue value)
+    {
+        isAccelerating = value.isPressed;
+    }
+
+    public void OnBrake(InputValue value)
+    {
+        isBraking = value.isPressed;
     }
 
     public Vector3 GetMoveDirection()

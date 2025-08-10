@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -11,14 +12,18 @@ public class UIManager : MonoBehaviour
     [Header("UI Elements")]
     public GameObject optionsPanel;
     public GameObject pausePanel;
-    public GameObject confirmPanel;
-    public GameObject warningPanel;
+    public GameObject mainPanel;
+    public GameObject creditpanel;
+    public GameObject timerPanel;
+    public GameObject ChrometerPanel;
     public GameObject inventoryPanel;
-    public TextMeshProUGUI confirmText;
-    public TextMeshProUGUI warningText;
+    public GameObject selectionPanel;
+    public GameObject winPanel;
+    public TextMeshProUGUI scooreText;
 
     [Header("UI Sounds")]
     public AudioClip sound;
+
 
     private void Awake()
     {
@@ -41,9 +46,7 @@ public class UIManager : MonoBehaviour
     {
         return
       (pausePanel != null && pausePanel.activeSelf) ||
-      (optionsPanel != null && optionsPanel.activeSelf) ||
-      (confirmPanel != null && confirmPanel.activeSelf) ||
-      (warningPanel != null && warningPanel.activeSelf);
+      (optionsPanel != null && optionsPanel.activeSelf);
     }
 
     public void AnimatePanelIn(GameObject panel)
@@ -85,29 +88,27 @@ public class UIManager : MonoBehaviour
         pausePanel.SetActive(state);
     }
 
-    public void ShowConfirmPanel(bool state, string message = "")
+    public void ShowTimerPanel(bool state)
     {
-        confirmText.text = message;
         if (state)
         {
-            AnimatePanelIn(confirmPanel);
+            AnimatePanelIn(timerPanel);
         }
         else
         {
-            AnimatePanelOut(confirmPanel);
+            AnimatePanelOut(timerPanel);
         }
     }
 
-    public void ShowWarningPanel(bool state, string message = "")
+    public void ShowChrometerPanel(bool state)
     {
-        warningText.text = message;
         if (state)
         {
-            AnimatePanelIn(warningPanel);
+            AnimatePanelIn(ChrometerPanel);
         }
         else
         {
-            AnimatePanelOut(warningPanel);
+            AnimatePanelOut(ChrometerPanel);
         }
     }
 
@@ -128,5 +129,20 @@ public class UIManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+    }
+
+    public void SetWinPanel(bool state)
+    {
+        winPanel.SetActive(state);
+    }
+
+    public void SetScoore(float scoore)
+    {
+        scooreText.text = scoore.ToString() + "s";
+    }
+
+    internal void ShowSelectedPanel(bool state)
+    {
+        selectionPanel.SetActive(state);
     }
 }
