@@ -5,6 +5,7 @@ public class LogicShine : MonoBehaviour
 {
     public Slider slider;
     public Image imageShine;
+
     void Start()
     {
         float shineValue = PlayerPrefs.GetFloat("Shine", 0.5f);

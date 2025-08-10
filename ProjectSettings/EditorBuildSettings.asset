@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/complete_track_demo.unity
+    path: Assets/Game UI Wireframe Kit (Community)/Scenes/complete_track_demo.unity
     guid: 83760dd98fe89364daec0c8817772284
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 3cd557bd54d2d9a4eb8415ef9e5aeb8d, type: 2}

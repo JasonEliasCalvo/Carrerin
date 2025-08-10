@@ -182,6 +182,11 @@ public class KartController : MonoBehaviour
         {
             currentItem = item;
         }
+        else
+        {
+            currentItem = null;
+            currentItem = item;
+        }
     }
 
     public void UseItem()

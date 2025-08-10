@@ -32,7 +32,6 @@ public class ProjectileBehavior : MonoBehaviour
             followTimer -= Time.deltaTime;
         }
 
-        //Avanzar siempre hacia adelante
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
