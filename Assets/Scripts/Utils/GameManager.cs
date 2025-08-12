@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public float fadeDuration = 1f;
     public Color fadeColor = Color.black;
     [SerializeField] private float fadeTimer = 0;
-    
+
     private void Awake()
     {
         if (instance == null)
@@ -50,11 +50,12 @@ public class GameManager : MonoBehaviour
     {
         playerControls.Player.Enable();
         playerControls.Player.Exit.performed += OnExit;
-        playerControls.UI.Continue.performed += OnContinue;
+        playerControls.Player.Continue.performed += OnContinue;
     }
 
     private void OnContinue(InputAction.CallbackContext context)
     {
+        Debug.Log("boton continuar");
         if (UIManager.instance.winPanel.activeSelf)
         {
             ReturnToMainMenu();
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         playerControls.Player.Exit.performed -= OnExit;
-        playerControls.UI.Continue.performed -= OnContinue;
+        playerControls.Player.Continue.performed -= OnContinue;
         playerControls.Player.Disable();
     }
 
@@ -152,7 +153,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
-    private void OnExit(UnityEngine.InputSystem.InputAction.CallbackContext context)
+    private void OnExit(InputAction.CallbackContext context)
     {
         Debug.Log("Botón de salida presionado");
 
@@ -169,10 +170,10 @@ public class GameManager : MonoBehaviour
             UIManager.instance.creditpanel.SetActive(false);
             UIManager.instance.mainPanel.SetActive(true);
         }
-        if(UIManager.instance.optionsPanel.activeSelf)
+        if (UIManager.instance.optionsPanel.activeSelf)
         {
             UIManager.instance.optionsPanel.SetActive(false);
-            if(Time.timeScale > 0)
+            if (Time.timeScale > 0)
             {
                 UIManager.instance.mainPanel.SetActive(true);
                 Debug.Log("Menu");

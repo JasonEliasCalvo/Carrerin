@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
 
     public void SetScoore(float scoore)
     {
-        scooreText.text = scoore.ToString() + "s";
+        //scooreText.text = scoore.ToString() + "s";
     }
 
     internal void ShowSelectedPanel(bool state)
